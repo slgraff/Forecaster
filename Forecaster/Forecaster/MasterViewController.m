@@ -8,8 +8,14 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "Location.h"
+#import "Weather.h"
 
-@interface MasterViewController ()
+@interface MasterViewController () <NSURLSessionDelegate>
+
+// Properties for JSON data received from Google Maps API request
+@property NSMutableData *receivedData;
+@property NSMutableArray *coordArray;
 
 @end
 
@@ -17,11 +23,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"Cities";
+
     // Do any additional setup after loading the view, typically from a nib.
+    
+    self.coordArray = [[NSMutableArray alloc]init];
+
+    
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 
@@ -38,7 +48,16 @@
 - (void)insertNewObject:(id)sender {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    Location *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    
+    // Call method for the Google API here
+    
+    // Call method for the Forecast.io API here
+    
+    // Populate our data to our models here
+    // Location info
+    
+    // Weather info
         
     // If appropriate, configure the new managed object.
     // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
@@ -54,12 +73,82 @@
     }
 }
 
+
+#pragma mark getCoordinates
+
+// Send query to Google Maps API to get coordinates (latitude & longitude), city, state given input of zip code
+- (void)getCoordinates: (NSNumber *)zipCode {
+    
+
+    // Sample Google Maps API call without city name or sensor (not required)
+    // http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:27701
+    
+    // Create string which puts together api address plus zip code
+    NSString * urlString = [NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:%@",zipCode];
+    
+    // Create NS URL from string
+    NSURL * url = [NSURL URLWithString:urlString];
+    
+    // Configure what part of processor is being used - main Queue is where all UI elements need to happen
+    NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession * session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    
+    // Create data task - which downloads from URL
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url];
+    
+    // Tell data task whether to start, stop, resume etc
+    [dataTask resume];
+    
+}
+
+
+#pragma mark NSURLSessionDelegates
+
+
+// Used when we receive data
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data {
+    
+    // Check to see if receivedData exists
+    if(!self.receivedData) {
+        // If there is nothing in variable initialize it with received data
+        self.receivedData = [[NSMutableData alloc]initWithData:data];
+    } else {
+        // If it does exist already, append received data
+        [self.receivedData appendData:data];
+    }
+}
+
+// Used when we get an error
+- (NSDictionary *)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+didCompleteWithError:(nullable NSError *)error {
+    if (!error) {
+        // NSLog(@"Download successful! %@", [self.receivedData description]);
+        
+        // Puts the data received into mutable arrays and dictionaries
+        NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.receivedData options:NSJSONReadingMutableContainers error:nil];
+        
+        return jsonResponse;
+        
+    }
+    return nil;
+}
+
+// didReceiveResponse implementation
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
+{
+    completionHandler(NSURLSessionResponseAllow);
+}
+
+
+
+
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        Location *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
         [controller setDetailItem:object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
@@ -79,7 +168,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CityCell" forIndexPath:indexPath];
     NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     [self configureCell:cell withObject:object];
     return cell;
@@ -119,14 +208,14 @@
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"city" ascending:NO];
 
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
