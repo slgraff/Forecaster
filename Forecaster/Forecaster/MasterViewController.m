@@ -20,7 +20,8 @@
 @property NSMutableData *receivedData;
 @property NSMutableArray *coordArray;
 
-- (NSDictionary *)getCoordinates:(NSNumber *)zipCode;
+- (void)getCoordinates:(NSNumber *)zipCode;
+- (void)getForecastlatitude:(float)latitude longitude:(float)longitude;
 
 @end
 
@@ -58,7 +59,7 @@
     AddLocationViewController *newItemALVC = (AddLocationViewController *)unwindSegue.sourceViewController;
     
     // Call method for the Google API here
-    NSDictionary *locationDictionary = [self getCoordinates:@((NSInteger)newItemALVC.zipCodeTextField.text)];
+    [self getCoordinates:@((NSInteger)newItemALVC.zipCodeTextField.text)];
     
     // Call method for the Forecast.io API here
     
