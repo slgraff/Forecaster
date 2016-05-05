@@ -13,6 +13,8 @@
 
 @interface MasterViewController () <NSURLSessionDelegate>
 
+@property NSMutableData * recievedWeatherData;
+
 // Properties for JSON data received from Google Maps API request
 @property NSMutableData *receivedData;
 @property NSMutableArray *coordArray;
@@ -73,6 +75,35 @@
     }
 }
 
+# pragma mark - retrieve weather information with API
+
+- (void)getForecastlatitude:(float)latitude longitude:(float)longitude{
+    
+    //trim coordinates for URL
+    
+    
+    //code format with input from coordinates
+    NSString * urlString = [NSString stringWithFormat:@"https://api.forecast.io/forecast/5d288b25264d7b5e082c405582ddc873/%f, %f", latitude, longitude];
+    
+    //OR hard code raleigh address FOR TESTING
+    // NSString * urlString = [NSString stringWithFormat:@"https://api.forecast.io/forecast/5d288b25264d7b5e082c405582ddc873/35.7796, -78.6382"];
+    
+    //create NS URL from string
+    NSURL * url = [NSURL URLWithString:urlString];
+    
+    //configure what part of processor is being used - main Queue is where all UI elements need to happen
+    NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+//pragma mark delegate needs to be set
+    NSURLSession * session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    
+    //create data task - which downloads from url
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url];
+    
+    // tell data task whether to start, stop, resume etc
+    [dataTask resume];
+}
+
 
 #pragma mark getCoordinates
 
@@ -100,47 +131,6 @@
     [dataTask resume];
     
 }
-
-
-#pragma mark NSURLSessionDelegates
-
-
-// Used when we receive data
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
-    didReceiveData:(NSData *)data {
-    
-    // Check to see if receivedData exists
-    if(!self.receivedData) {
-        // If there is nothing in variable initialize it with received data
-        self.receivedData = [[NSMutableData alloc]initWithData:data];
-    } else {
-        // If it does exist already, append received data
-        [self.receivedData appendData:data];
-    }
-}
-
-// Used when we get an error
-- (NSDictionary *)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
-didCompleteWithError:(nullable NSError *)error {
-    if (!error) {
-        // NSLog(@"Download successful! %@", [self.receivedData description]);
-        
-        // Puts the data received into mutable arrays and dictionaries
-        NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.receivedData options:NSJSONReadingMutableContainers error:nil];
-        
-        return jsonResponse;
-        
-    }
-    return nil;
-}
-
-// didReceiveResponse implementation
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
-{
-    completionHandler(NSURLSessionResponseAllow);
-}
-
-
 
 
 #pragma mark - Segues
@@ -297,5 +287,75 @@ didCompleteWithError:(nullable NSError *)error {
     [self.tableView reloadData];
 }
  */
+
+#pragma mark NSURLSessionDelegate
+
+//bring in data task information
+//- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+//    didReceiveData:(NSData *)data{
+//    //use variable created above. create loop to incrementaly add to our mutable data variable
+//    if (!self.recievedWeatherData) {
+//        self.recievedWeatherData = [[NSMutableData alloc]initWithData:data];
+//    }else{
+//        [self.recievedWeatherData appendData:data];
+//    }
+//}
+
+
+
+////figure out if the download happened with or without an error
+//- (NSDictionary*)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+//didCompleteWithError:(nullable NSError *)error{
+//    
+//    if (!error) {
+//        NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.recievedWeatherData options:NSJSONReadingMutableContainers error:nil];
+//               return jsonResponse;
+//    }
+//    return nil;
+//}
+//
+//
+////magic code
+//- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
+//{
+//    completionHandler(NSURLSessionResponseAllow);
+//}
+
+// Used when we receive data
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data {
+    
+    // Check to see if receivedData exists
+    if(!self.receivedData) {
+        // If there is nothing in variable initialize it with received data
+        self.receivedData = [[NSMutableData alloc]initWithData:data];
+    } else {
+        // If it does exist already, append received data
+        [self.receivedData appendData:data];
+    }
+}
+
+// Used when we get an error
+- (NSDictionary *)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+        didCompleteWithError:(nullable NSError *)error {
+    if (!error) {
+        // NSLog(@"Download successful! %@", [self.receivedData description]);
+        
+        // Puts the data received into mutable arrays and dictionaries
+        NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.receivedData options:NSJSONReadingMutableContainers error:nil];
+        
+        return jsonResponse;
+        
+    }
+    self.receivedData = nil;
+    return nil;
+}
+
+// didReceiveResponse implementation
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
+{
+    completionHandler(NSURLSessionResponseAllow);
+}
+
 
 @end
