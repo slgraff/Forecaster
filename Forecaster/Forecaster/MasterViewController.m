@@ -8,6 +8,7 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "AddLocationViewController.h"
 #import "Location.h"
 #import "Weather.h"
 
@@ -18,6 +19,8 @@
 // Properties for JSON data received from Google Maps API request
 @property NSMutableData *receivedData;
 @property NSMutableArray *coordArray;
+
+- (NSDictionary *)getCoordinates:(NSNumber *)zipCode;
 
 @end
 
@@ -47,12 +50,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)insertNewObject:(id)sender {
+- (IBAction)insertNewObject:(UIStoryboardSegue *)unwindSegue {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    Location *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    Location *locationObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    
+    AddLocationViewController *newItemALVC = (AddLocationViewController *)unwindSegue.sourceViewController;
     
     // Call method for the Google API here
+    NSDictionary *locationDictionary = [self getCoordinates:@((NSInteger)newItemALVC.zipCodeTextField.text)];
     
     // Call method for the Forecast.io API here
     
@@ -63,8 +69,8 @@
         
     // If appropriate, configure the new managed object.
     // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
-        
+//    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
+    
     // Save the context.
     NSError *error = nil;
     if (![context save:&error]) {
@@ -115,7 +121,7 @@
     // http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:27701
     
     // Create string which puts together api address plus zip code
-    NSString * urlString = [NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:%@",zipCode];
+    NSString * urlString = [NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:%ld",(long)[zipCode integerValue]];
     
     // Create NS URL from string
     NSURL * url = [NSURL URLWithString:urlString];
