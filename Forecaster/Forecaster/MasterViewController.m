@@ -9,7 +9,10 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 
-@interface MasterViewController ()
+
+@interface MasterViewController () <NSURLSessionDelegate>
+
+@property NSMutableData * recievedWeatherData;
 
 @end
 
@@ -54,17 +57,17 @@
     }
 }
 
+
+
 # pragma mark - retrieve weather information with API
 
-- (void)getForecast {
-    // Update the user interface for the detail item.
+- (void)getForecastlatitude:(float)latitude longitude:(float)longitude{
     
-    //set coordinates into local varaible from location data
-    NSString * latitude = aLocation.latitude;
-    NSString * longitude = aLocation.longitude;
+    //trim coordinates for URL
+    
     
     //code format with input from coordinates
-    NSString * urlString = [NSString stringWithFormat:@"https://api.forecast.io/forecast/5d288b25264d7b5e082c405582ddc873/%@, %@", latitude, longitude];
+    NSString * urlString = [NSString stringWithFormat:@"https://api.forecast.io/forecast/5d288b25264d7b5e082c405582ddc873/%f, %f", latitude, longitude];
     
     //OR hard code raleigh address FOR TESTING
     // NSString * urlString = [NSString stringWithFormat:@"https://api.forecast.io/forecast/5d288b25264d7b5e082c405582ddc873/35.7796, -78.6382"];
@@ -250,24 +253,24 @@
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data{
     //use variable created above. create loop to incrementaly add to our mutable data variable
-    if (!self.recievedData) {
-        self.recievedData = [[NSMutableData alloc]initWithData:data];
+    if (!self.recievedWeatherData) {
+        self.recievedWeatherData = [[NSMutableData alloc]initWithData:data];
     }else{
-        [self.recievedData appendData:data];
+        [self.recievedWeatherData appendData:data];
     }
 }
 
 
 
 //figure out if the download happened with or without an error
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+- (NSDictionary*)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didCompleteWithError:(nullable NSError *)error{
     
     if (!error) {
-        NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.recievedData options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"%@", [jsonResponse description]);
+        NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.recievedWeatherData options:NSJSONReadingMutableContainers error:nil];
+               return jsonResponse;
     }
-    
+    return nil;
 }
 
 
