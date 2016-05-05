@@ -54,6 +54,41 @@
     }
 }
 
+# pragma mark - retrieve weather information with API
+
+- (void)getForecast {
+    // Update the user interface for the detail item.
+    
+    //set coordinates into local varaible from location data
+    NSString * latitude = aLocation.latitude;
+    NSString * longitude = aLocation.longitude;
+    
+    //code format with input from coordinates
+    NSString * urlString = [NSString stringWithFormat:@"https://api.forecast.io/forecast/5d288b25264d7b5e082c405582ddc873/%@, %@", latitude, longitude];
+    
+    //OR hard code raleigh address FOR TESTING
+    // NSString * urlString = [NSString stringWithFormat:@"https://api.forecast.io/forecast/5d288b25264d7b5e082c405582ddc873/35.7796, -78.6382"];
+    
+    //create NS URL from string
+    NSURL * url = [NSURL URLWithString:urlString];
+    
+    //configure what part of processor is being used - main Queue is where all UI elements need to happen
+    NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+//pragma mark delegate needs to be set
+    NSURLSession * session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    
+    //create data task - which downloads from url
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url];
+    
+    // tell data task whether to start, stop, resume etc
+    [dataTask resume];
+    
+}
+
+
+
+
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -208,5 +243,44 @@
     [self.tableView reloadData];
 }
  */
+
+#pragma mark NSURLSessionDelegate
+
+//bring in data task information
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data{
+    //use variable created above. create loop to incrementaly add to our mutable data variable
+    if (!self.recievedData) {
+        self.recievedData = [[NSMutableData alloc]initWithData:data];
+    }else{
+        [self.recievedData appendData:data];
+    }
+}
+
+
+
+//figure out if the download happened with or without an error
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+didCompleteWithError:(nullable NSError *)error{
+    
+    if (!error) {
+        NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.recievedData options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"%@", [jsonResponse description]);
+    }
+    
+}
+
+
+//magic code
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
+{
+    completionHandler(NSURLSessionResponseAllow);
+}
+
+
+
+
+
+
 
 @end
