@@ -77,16 +77,10 @@
 			children = (
 				41A2CA851CDBB3450096D11A /* AppDelegate.h */,
 				41A2CA861CDBB3450096D11A /* AppDelegate.m */,
-				41A2CA8B1CDBB3450096D11A /* MasterViewController.h */,
-				41A2CA8C1CDBB3450096D11A /* MasterViewController.m */,
-				41A2CA8E1CDBB3450096D11A /* DetailViewController.h */,
-				41A2CA8F1CDBB3450096D11A /* DetailViewController.m */,
+				41A2CAAD1CDBCEEC0096D11A /* Controller */,
 				41A2CAAB1CDBC2EF0096D11A /* Model */,
-				41A2CA911CDBB3450096D11A /* Main.storyboard */,
+				41A2CAAC1CDBCEDD0096D11A /* Views */,
 				41A2CA941CDBB3450096D11A /* Assets.xcassets */,
-				41A2CA961CDBB3450096D11A /* LaunchScreen.storyboard */,
-				41A2CA991CDBB3450096D11A /* Info.plist */,
-				41A2CA881CDBB3450096D11A /* Forecaster.xcdatamodeld */,
 				41A2CA821CDBB3450096D11A /* Supporting Files */,
 			);
 			path = Forecaster;
@@ -95,6 +89,7 @@
 		41A2CA821CDBB3450096D11A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				41A2CA991CDBB3450096D11A /* Info.plist */,
 				41A2CA831CDBB3450096D11A /* main.m */,
 			);
 			name = "Supporting Files";
@@ -103,6 +98,7 @@
 		41A2CAAB1CDBC2EF0096D11A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				41A2CA881CDBB3450096D11A /* Forecaster.xcdatamodeld */,
 				41A2CA9F1CDBC2D80096D11A /* Location+CoreDataProperties.h */,
 				41A2CAA01CDBC2D80096D11A /* Location+CoreDataProperties.m */,
 				41A2CAA11CDBC2D80096D11A /* Location.h */,
@@ -113,6 +109,26 @@
 				41A2CAA61CDBC2D80096D11A /* Weather.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		41A2CAAC1CDBCEDD0096D11A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				41A2CA911CDBB3450096D11A /* Main.storyboard */,
+				41A2CA961CDBB3450096D11A /* LaunchScreen.storyboard */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		41A2CAAD1CDBCEEC0096D11A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				41A2CA8B1CDBB3450096D11A /* MasterViewController.h */,
+				41A2CA8C1CDBB3450096D11A /* MasterViewController.m */,
+				41A2CA8E1CDBB3450096D11A /* DetailViewController.h */,
+				41A2CA8F1CDBB3450096D11A /* DetailViewController.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
