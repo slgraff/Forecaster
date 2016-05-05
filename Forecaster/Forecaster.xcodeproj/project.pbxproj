@@ -83,7 +83,6 @@
 				41A2CAAD1CDBCEEC0096D11A /* Controller */,
 				41A2CAAB1CDBC2EF0096D11A /* Model */,
 				41A2CAAC1CDBCEDD0096D11A /* Views */,
-				41A2CA941CDBB3450096D11A /* Assets.xcassets */,
 				41A2CA821CDBB3450096D11A /* Supporting Files */,
 			);
 			path = Forecaster;
@@ -92,6 +91,7 @@
 		41A2CA821CDBB3450096D11A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				41A2CA941CDBB3450096D11A /* Assets.xcassets */,
 				41A2CA991CDBB3450096D11A /* Info.plist */,
 				41A2CA831CDBB3450096D11A /* main.m */,
 			);
