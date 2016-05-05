@@ -9,7 +9,11 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 
-@interface MasterViewController ()
+@interface MasterViewController () <NSURLSessionDelegate>
+
+// Properties for JSON data received from Google Maps API request
+@property NSMutableData *receivedData;
+@property NSMutableArray *coordArray;
 
 @end
 
@@ -18,6 +22,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    self.coordArray = [[NSMutableArray alloc]init];
+
+    
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
@@ -53,6 +61,76 @@
         abort();
     }
 }
+
+
+#pragma mark getCoordinates
+
+// Send query to Google Maps API to get coordinates (latitude & longitude), city, state given input of zip code
+- (void)getCoordinates: (NSNumber *)zipCode {
+    
+
+    // Sample Google Maps API call without city name or sensor (not required)
+    // http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:27701
+    
+    // Create string which puts together api address plus zip code
+    NSString * urlString = [NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:%@",zipCode];
+    
+    // Create NS URL from string
+    NSURL * url = [NSURL URLWithString:urlString];
+    
+    // Configure what part of processor is being used - main Queue is where all UI elements need to happen
+    NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession * session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    
+    // Create data task - which downloads from URL
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url];
+    
+    // Tell data task whether to start, stop, resume etc
+    [dataTask resume];
+    
+}
+
+
+#pragma mark NSURLSessionDelegates
+
+
+// Used when we receive data
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data {
+    
+    // Check to see if receivedData exists
+    if(!self.receivedData) {
+        // If there is nothing in variable initialize it with received data
+        self.receivedData = [[NSMutableData alloc]initWithData:data];
+    } else {
+        // If it does exist already, append received data
+        [self.receivedData appendData:data];
+    }
+}
+
+// Used when we get an error
+- (NSDictionary *)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+didCompleteWithError:(nullable NSError *)error {
+    if (!error) {
+        // NSLog(@"Download successful! %@", [self.receivedData description]);
+        
+        // Puts the data received into mutable arrays and dictionaries
+        NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.receivedData options:NSJSONReadingMutableContainers error:nil];
+        
+        return jsonResponse;
+        
+    }
+    return nil;
+}
+
+// didReceiveResponse implementation
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
+{
+    completionHandler(NSURLSessionResponseAllow);
+}
+
+
+
 
 #pragma mark - Segues
 
