@@ -10,4 +10,6 @@
 
 @interface AddLocationViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UITextField *zipCodeTextField;
+
 @end
