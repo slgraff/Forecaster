@@ -180,7 +180,7 @@
         <!--Add City-->
         <scene sceneID="aJr-8R-0ho">
             <objects>
-                <viewController id="Z1g-Fj-haQ" sceneMemberID="viewController">
+                <viewController id="Z1g-Fj-haQ" customClass="AddLocationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lsF-qQ-ZHR"/>
                         <viewControllerLayoutGuide type="bottom" id="0xb-pU-hdh"/>
@@ -200,6 +200,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ACc-ab-yb7">
                                 <rect key="frame" x="270" y="177" width="61" height="30"/>
                                 <state key="normal" title="Find City"/>
+                                <connections>
+                                    <segue destination="sxk-gJ-0gx" kind="unwind" unwindAction="insertNewObject:" id="lmZ-1d-W7b"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.7803921568627451" green="0.84705882352941175" blue="0.8784313725490196" alpha="1" colorSpace="calibratedRGB"/>
@@ -214,11 +217,18 @@
                     <navigationItem key="navigationItem" title="Add City" prompt="Please enter zip code to find the current weather conditions!" id="GoJ-Fu-d0G">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="xkZ-2f-vph">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="cancelAction:" destination="Z1g-Fj-haQ" id="Rto-qw-0yB"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="zipCodeTextField" destination="Iex-iS-A3D" id="Boa-OJ-yyi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LFZ-zB-4ar" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="sxk-gJ-0gx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2190" y="-625"/>
         </scene>
