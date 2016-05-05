@@ -15,6 +15,7 @@
 		41A2CA931CDBB3450096D11A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41A2CA911CDBB3450096D11A /* Main.storyboard */; };
 		41A2CA951CDBB3450096D11A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41A2CA941CDBB3450096D11A /* Assets.xcassets */; };
 		41A2CA981CDBB3450096D11A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41A2CA961CDBB3450096D11A /* LaunchScreen.storyboard */; };
+		9F8C86401CDBC17E00F6A3B3 /* Forecast.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F8C863F1CDBC17E00F6A3B3 /* Forecast.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		41A2CA941CDBB3450096D11A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		41A2CA971CDBB3450096D11A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		41A2CA991CDBB3450096D11A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F8C863E1CDBC17E00F6A3B3 /* Forecast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Forecast.h; sourceTree = "<group>"; };
+		9F8C863F1CDBC17E00F6A3B3 /* Forecast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Forecast.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +67,8 @@
 			isa = PBXGroup;
 			children = (
 				41A2CA851CDBB3450096D11A /* AppDelegate.h */,
+				9F8C863E1CDBC17E00F6A3B3 /* Forecast.h */,
+				9F8C863F1CDBC17E00F6A3B3 /* Forecast.m */,
 				41A2CA861CDBB3450096D11A /* AppDelegate.m */,
 				41A2CA8B1CDBB3450096D11A /* MasterViewController.h */,
 				41A2CA8C1CDBB3450096D11A /* MasterViewController.m */,
@@ -158,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F8C86401CDBC17E00F6A3B3 /* Forecast.m in Sources */,
 				41A2CA901CDBB3450096D11A /* DetailViewController.m in Sources */,
 				41A2CA8D1CDBB3450096D11A /* MasterViewController.m in Sources */,
 				41A2CA871CDBB3450096D11A /* AppDelegate.m in Sources */,
@@ -313,6 +319,7 @@
 				41A2CA9E1CDBB3450096D11A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
