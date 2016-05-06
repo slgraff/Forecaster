@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		414791701CDCD95C00F67860 /* CityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4147916F1CDCD95C00F67860 /* CityTableViewCell.m */; };
 		41A2CA841CDBB3450096D11A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A2CA831CDBB3450096D11A /* main.m */; };
 		41A2CA871CDBB3450096D11A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A2CA861CDBB3450096D11A /* AppDelegate.m */; };
 		41A2CA8A1CDBB3450096D11A /* Forecaster.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 41A2CA881CDBB3450096D11A /* Forecaster.xcdatamodeld */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4147916E1CDCD95C00F67860 /* CityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityTableViewCell.h; sourceTree = "<group>"; };
+		4147916F1CDCD95C00F67860 /* CityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityTableViewCell.m; sourceTree = "<group>"; };
 		41A2CA7F1CDBB3450096D11A /* Forecaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Forecaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41A2CA831CDBB3450096D11A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		41A2CA851CDBB3450096D11A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -128,6 +131,8 @@
 			children = (
 				41A2CA8B1CDBB3450096D11A /* MasterViewController.h */,
 				41A2CA8C1CDBB3450096D11A /* MasterViewController.m */,
+				4147916E1CDCD95C00F67860 /* CityTableViewCell.h */,
+				4147916F1CDCD95C00F67860 /* CityTableViewCell.m */,
 				41A2CA8E1CDBB3450096D11A /* DetailViewController.h */,
 				41A2CA8F1CDBB3450096D11A /* DetailViewController.m */,
 				41A2CAAE1CDBCF4D0096D11A /* AddLocationViewController.h */,
@@ -210,6 +215,7 @@
 				41A2CAAA1CDBC2D80096D11A /* Weather.m in Sources */,
 				41A2CAA71CDBC2D80096D11A /* Location+CoreDataProperties.m in Sources */,
 				41A2CAA81CDBC2D80096D11A /* Location.m in Sources */,
+				414791701CDCD95C00F67860 /* CityTableViewCell.m in Sources */,
 				41A2CAA91CDBC2D80096D11A /* Weather+CoreDataProperties.m in Sources */,
 				41A2CA901CDBB3450096D11A /* DetailViewController.m in Sources */,
 				41A2CAB01CDBCF4D0096D11A /* AddLocationViewController.m in Sources */,
