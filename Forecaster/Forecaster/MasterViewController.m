@@ -168,6 +168,12 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CityCell" forIndexPath:indexPath];
     NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     [self configureCell:cell withObject:object];
+    
+    NSString *temperatureString = NSString stringWithFormat:@"%@℉", object.temperature;
+    cell.temperature.text = temperatureString;
+    cell.summary.text = object.summary;
+    cell.city.text = object.city;
+    
     return cell;
 }
 
