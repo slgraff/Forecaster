@@ -7,6 +7,7 @@
 //
 
 #import "MasterViewController.h"
+#import "CityTableViewCell.h"
 #import "DetailViewController.h"
 #import "AddLocationViewController.h"
 #import "Location.h"
@@ -208,9 +209,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CityCell" forIndexPath:indexPath];
-    NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    CityTableViewCell *cell = (CityTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"CityCell" forIndexPath:indexPath];
+    Location *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    
+    cell.city.text = object.city;
     [self configureCell:cell withObject:object];
+    
     return cell;
 }
 
@@ -234,8 +238,11 @@
     }
 }
 
-- (void)configureCell:(UITableViewCell *)cell withObject:(NSManagedObject *)object {
-    cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
+- (void)configureCell:(CityTableViewCell *)cell withObject:(Location *)object {
+//    NSString *temperatureString = [NSString stringWithFormat:@"%@℉", object.temperature];
+//    cell.temperature.text = temperatureString;
+//    cell.summary.text = object.summary;
+    cell.city.text = object.city;
 }
 
 #pragma mark - Fetched results controller
