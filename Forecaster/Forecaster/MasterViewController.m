@@ -280,10 +280,12 @@
 }
 
 - (void)configureCell:(CityTableViewCell *)cell withObject:(Location *)object {
-//    NSString *temperatureString = [NSString stringWithFormat:@"%@℉", object.temperature];
-//    cell.temperature.text = temperatureString;
-//    cell.summary.text = object.summary;
+    Weather *weatherObject = (Weather*)object.forecast;
+    NSString *temperatureString = [NSString stringWithFormat:@"%ld℉", [weatherObject.temperature integerValue]];
+    cell.temperature.text = temperatureString;
+    cell.summary.text = weatherObject.summary;
     cell.city.text = object.city;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
