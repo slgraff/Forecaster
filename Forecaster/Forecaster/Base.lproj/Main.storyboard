@@ -213,9 +213,11 @@
                                     <constraint firstAttribute="width" constant="90" id="0nQ-M4-bJc"/>
                                     <constraint firstAttribute="height" constant="50" id="pPM-ip-58y"/>
                                 </constraints>
-                                <state key="normal" title="Find City"/>
+                                <state key="normal" title="Find City">
+                                    <color key="titleColor" red="0.25098039215686274" green="0.4823529411764706" blue="0.59607843137254901" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
-                                    <segue destination="sxk-gJ-0gx" kind="unwind" unwindAction="insertNewObject:" id="lmZ-1d-W7b"/>
+                                    <action selector="findCityAction:" destination="Z1g-Fj-haQ" eventType="touchUpInside" id="Tgk-lL-XE7"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -243,7 +245,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LFZ-zB-4ar" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="sxk-gJ-0gx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2190" y="-625"/>
         </scene>

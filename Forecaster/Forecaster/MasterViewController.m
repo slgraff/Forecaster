@@ -73,42 +73,12 @@
 }
 
 
-- (IBAction)insertNewObject:(UIStoryboardSegue *)unwindSegue {
+- (void)insertNewObject:(NSString *)zipCodeString {
     
-    AddLocationViewController *newItemALVC = (AddLocationViewController *)unwindSegue.sourceViewController;
-
-    if ([self isZipCode:newItemALVC.zipCodeTextField.text]) {
-        // Call method for the Google API here
-        [self getCoordinates:newItemALVC.zipCodeTextField.text];
-        
-        // Call method for the Forecast.io API here
-        
-        // Populate our data to our models here
-        // Location info
-        
-        // Weather info
-  
-    }else{
-        UIAlertController * alertController =
-        [UIAlertController alertControllerWithTitle:@"ERROR"
-         
-                                            message: @"ZipCode is invalid!"
-                                     preferredStyle:UIAlertControllerStyleAlert];
-        
-
-        
-        
-        UIAlertAction *okAlert =
-        [UIAlertAction actionWithTitle : @"ok" style:UIAlertActionStyleDefault handler:nil];
-        
-        
-        
-        [alertController addAction: okAlert];
-                
-        [self presentViewController:alertController animated:YES completion:nil];
-
-        
-    }
+    // Call method for the Google API here
+    [self getCoordinates:zipCodeString];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 
 }
 
