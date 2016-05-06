@@ -7,7 +7,9 @@
 //
 
 #import "DetailViewController.h"
-
+#import "MasterViewController.h"
+#import "Location.h"
+#import "Weather.h"
 @interface DetailViewController ()
 
 @end
@@ -28,12 +30,20 @@
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
+//        self.title.text = self.detailItem.city;
+//        self.weatherLabel.text = self.detailItem.summary;
+//    self.temperatureLabel.text = self.detailItem.temperature;
+//        self.feelsLikeTempLabel.text = self.detailItem.apparentTemperature;
+        
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.currentLabel.text =@"CURRENTLY";
+    
+    
     // Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
@@ -42,5 +52,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

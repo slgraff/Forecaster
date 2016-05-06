@@ -7,6 +7,7 @@
 //
 
 #import "MasterViewController.h"
+#import "CityTableViewCell.h"
 #import "DetailViewController.h"
 #import "AddLocationViewController.h"
 #import "Location.h"
@@ -20,7 +21,7 @@
 @property NSMutableData *receivedData;
 @property NSMutableArray *coordArray;
 
-- (void)getCoordinates:(NSNumber *)zipCode;
+- (void)getCoordinates:(NSString *)zipCode;
 - (void)getForecastlatitude:(float)latitude longitude:(float)longitude;
 
 - (void)updateLocation:(NSDictionary *)locationDataDictionary;
@@ -42,6 +43,7 @@
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
 
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
@@ -59,19 +61,55 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)isZipCode:(NSString *)zipCodeString{
+    BOOL rc = NO;
+    
+    NSCharacterSet * set =[NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
+    
+    rc = ([zipCodeString length] ==5)&&([zipCodeString rangeOfCharacterFromSet:set].location != NSNotFound);
+    
+    return rc;
+    
+}
+
+
 - (IBAction)insertNewObject:(UIStoryboardSegue *)unwindSegue {
     
     AddLocationViewController *newItemALVC = (AddLocationViewController *)unwindSegue.sourceViewController;
-    
-    // Call method for the Google API here
-    [self getCoordinates:@((NSInteger)newItemALVC.zipCodeTextField.text)];
-    
-    // Call method for the Forecast.io API here
-    
-    // Populate our data to our models here
-    // Location info
-    
-    // Weather info
+
+    if ([self isZipCode:newItemALVC.zipCodeTextField.text]) {
+        // Call method for the Google API here
+        [self getCoordinates:newItemALVC.zipCodeTextField.text];
+        
+        // Call method for the Forecast.io API here
+        
+        // Populate our data to our models here
+        // Location info
+        
+        // Weather info
+  
+    }else{
+        UIAlertController * alertController =
+        [UIAlertController alertControllerWithTitle:@"ERROR"
+         
+                                            message: @"ZipCode is invalid!"
+                                     preferredStyle:UIAlertControllerStyleAlert];
+        
+
+        
+        
+        UIAlertAction *okAlert =
+        [UIAlertAction actionWithTitle : @"ok" style:UIAlertActionStyleDefault handler:nil];
+        
+        
+        
+        [alertController addAction: okAlert];
+                
+        [self presentViewController:alertController animated:YES completion:nil];
+
+        
+    }
+
 }
 
 #pragma mark - retrieve weather information with API
@@ -106,14 +144,14 @@
 #pragma mark - getCoordinates
 
 // Send query to Google Maps API to get coordinates (latitude & longitude), city, state given input of zip code
-- (void)getCoordinates: (NSNumber *)zipCode {
+- (void)getCoordinates: (NSString *)zipCode {
     
 
     // Sample Google Maps API call without city name or sensor (not required)
-    // http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:27701
+    // https://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:27701
     
     // Create string which puts together api address plus zip code
-    NSString * urlString = [NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:%ld",(long)[zipCode integerValue]];
+    NSString * urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:%@",zipCode];
     
     // Create NS URL from string
     NSURL * url = [NSURL URLWithString:urlString];
@@ -140,7 +178,7 @@
     NSArray *resultsArray = locationDataDictionary[@"results"];
     locationObject.latitude = resultsArray[0][@"geometry"][@"location"][@"lat"];
     locationObject.longitude = resultsArray[0][@"geometry"][@"location"][@"lng"];
-    NSArray *addressComponentsArray = locationDataDictionary[@"address_components"];
+    NSArray *addressComponentsArray = resultsArray[0][@"address_components"];
     for (NSDictionary *addressInfo in addressComponentsArray) {
         if ([addressInfo[@"types"][0] isEqualToString:@"postal_code"]) {
             locationObject.zipCode = [NSNumber numberWithInteger:[addressInfo[@"short_name"] integerValue]];
@@ -208,9 +246,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CityCell" forIndexPath:indexPath];
-    NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    CityTableViewCell *cell = (CityTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"CityCell" forIndexPath:indexPath];
+    Location *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    
+    cell.city.text = object.city;
     [self configureCell:cell withObject:object];
+    
     return cell;
 }
 
@@ -234,9 +275,17 @@
     }
 }
 
-- (void)configureCell:(UITableViewCell *)cell withObject:(NSManagedObject *)object {
-    cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
+- (void)configureCell:(CityTableViewCell *)cell withObject:(Location *)object {
+//    NSString *temperatureString = [NSString stringWithFormat:@"%@℉", object.temperature];
+//    cell.temperature.text = temperatureString;
+//    cell.summary.text = object.summary;
+    cell.city.text = object.city;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.0;
+}
+
 
 #pragma mark - Fetched results controller
 
@@ -255,7 +304,7 @@
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"city" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"city" ascending:YES];
 
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
@@ -386,7 +435,7 @@
 }
 
 // Used when we get an error
-- (NSDictionary *)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
         didCompleteWithError:(nullable NSError *)error {
     if (!error) {
         // NSLog(@"Download successful! %@", [self.receivedData description]);
@@ -394,11 +443,11 @@
         // Puts the data received into mutable arrays and dictionaries
         NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.receivedData options:NSJSONReadingMutableContainers error:nil];
         
-        return jsonResponse;
+        // Update our location data model
+        [self updateLocation:jsonResponse];
         
     }
     self.receivedData = nil;
-    return nil;
 }
 
 // didReceiveResponse implementation
