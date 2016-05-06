@@ -37,6 +37,7 @@
 
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
 
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
@@ -50,35 +51,72 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(BOOL) isZipCode:(NSString *)zipCodeString{
+    BOOL rc = NO;
+    
+    NSCharacterSet * set =[NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
+    
+    rc = ([zipCodeString length] ==5)&&([zipCodeString rangeOfCharacterFromSet:set].location != NSNotFound);
+    
+    return rc;
+    
+}
+
 
 - (IBAction)insertNewObject:(UIStoryboardSegue *)unwindSegue {
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    Location *locationObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
     
     AddLocationViewController *newItemALVC = (AddLocationViewController *)unwindSegue.sourceViewController;
-    
-    // Call method for the Google API here
-    [self getCoordinates:@((NSInteger)newItemALVC.zipCodeTextField.text)];
-    
-    // Call method for the Forecast.io API here
-    
-    // Populate our data to our models here
-    // Location info
-    
-    // Weather info
+
+    if ([self isZipCode:newItemALVC.zipCodeTextField.text]) {
+        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+        NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+        Location *locationObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
         
-    // If appropriate, configure the new managed object.
-    // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-//    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
+        // Call method for the Google API here
+        [self getCoordinates:@((NSInteger)newItemALVC.zipCodeTextField.text)];
+        
+        // Call method for the Forecast.io API here
+        
+        // Populate our data to our models here
+        // Location info
+        
+        // Weather info
+        
+        // If appropriate, configure the new managed object.
+        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
+        //    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
+        
+        // Save the context.
+        NSError *error = nil;
+        if (![context save:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+
+        }
     
-    // Save the context.
-    NSError *error = nil;
-    if (![context save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+  
+    }else{
+        UIAlertController * alertController =
+        [UIAlertController alertControllerWithTitle:@"ERROR"
+         
+                                            message: @"ZipCode is invalid!"
+                                     preferredStyle:UIAlertControllerStyleAlert];
+        
+
+        
+        
+        UIAlertAction *okAlert =
+        [UIAlertAction actionWithTitle : @"ok" style:UIAlertActionStyleDefault handler:nil];
+        
+        
+        
+        [alertController addAction: okAlert];
+                
+        [self presentViewController:alertController animated:YES completion:nil];
+
+        
     }
 }
 
@@ -194,6 +232,7 @@
 - (void)configureCell:(UITableViewCell *)cell withObject:(NSManagedObject *)object {
     cell.textLabel.text = [[object valueForKey:@"city"] description];
 }
+
 
 #pragma mark - Fetched results controller
 
