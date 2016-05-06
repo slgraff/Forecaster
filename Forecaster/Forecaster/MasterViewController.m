@@ -110,10 +110,10 @@
     
 
     // Sample Google Maps API call without city name or sensor (not required)
-    // http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:27701
+    // https://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:27701
     
     // Create string which puts together api address plus zip code
-    NSString * urlString = [NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:%ld",(long)[zipCode integerValue]];
+    NSString * urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:%ld",(long)[zipCode integerValue]];
     
     // Create NS URL from string
     NSURL * url = [NSURL URLWithString:urlString];
@@ -386,7 +386,7 @@
 }
 
 // Used when we get an error
-- (NSDictionary *)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
         didCompleteWithError:(nullable NSError *)error {
     if (!error) {
         // NSLog(@"Download successful! %@", [self.receivedData description]);
@@ -394,11 +394,16 @@
         // Puts the data received into mutable arrays and dictionaries
         NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.receivedData options:NSJSONReadingMutableContainers error:nil];
         
-        return jsonResponse;
+        // Update our location data model
+        [self updateLocation:jsonResponse];
+        
+        // Add location to table view
+        id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][0];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[sectionInfo numberOfObjects] inSection:0];
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     }
     self.receivedData = nil;
-    return nil;
 }
 
 // didReceiveResponse implementation
