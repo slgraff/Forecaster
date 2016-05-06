@@ -30,11 +30,20 @@
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
-//        self.title.text = self.detailItem.city;
-//        self.weatherLabel.text = self.detailItem.summary;
-//    self.temperatureLabel.text = self.detailItem.temperature;
-//        self.feelsLikeTempLabel.text = self.detailItem.apparentTemperature;
         
+        
+        Weather *weatherObject = (Weather*)self.detailItem.forecast;
+        NSString *temperatureString = [NSString stringWithFormat:@"%ld℉", [weatherObject.temperature integerValue]];
+        NSString *feelsLikeTemp = [NSString stringWithFormat:@"Feels Like %ld℉", [weatherObject.apparentTemperature integerValue]];
+        
+        self.title = self.detailItem.city;
+        self.weatherLabel.text = weatherObject.summary;
+    self.temperatureLabel.text = temperatureString;
+        self.feelsLikeTempLabel.text = feelsLikeTemp;
+//        if(![self.detailItem.image isEqualToString:@""]){
+//            self.weatherImage.image = self.detailItem.image;
+//            
+//        }
     }
 }
 
