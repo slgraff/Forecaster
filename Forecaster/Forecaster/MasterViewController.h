@@ -17,6 +17,10 @@
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (weak, nonatomic) IBOutlet UILabel *temperature;
+@property (weak, nonatomic) IBOutlet UILabel *summary;
+@property (weak, nonatomic) IBOutlet UILabel *city;
+
 
 
 @end
