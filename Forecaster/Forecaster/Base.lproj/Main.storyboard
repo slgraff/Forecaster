@@ -208,7 +208,11 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ACc-ab-yb7">
-                                <rect key="frame" x="270" y="177" width="61" height="30"/>
+                                <rect key="frame" x="261" y="177" width="90" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="0nQ-M4-bJc"/>
+                                    <constraint firstAttribute="height" constant="50" id="pPM-ip-58y"/>
+                                </constraints>
                                 <state key="normal" title="Find City"/>
                                 <connections>
                                     <segue destination="sxk-gJ-0gx" kind="unwind" unwindAction="insertNewObject:" id="lmZ-1d-W7b"/>
@@ -220,7 +224,7 @@
                             <constraint firstItem="ACc-ab-yb7" firstAttribute="top" secondItem="Iex-iS-A3D" secondAttribute="bottom" constant="18" id="2Db-2w-nns"/>
                             <constraint firstItem="Iex-iS-A3D" firstAttribute="centerX" secondItem="RN9-9z-vVx" secondAttribute="centerX" id="VNu-xg-K4t"/>
                             <constraint firstItem="Iex-iS-A3D" firstAttribute="top" secondItem="lsF-qQ-ZHR" secondAttribute="bottom" constant="35" id="ksd-ht-dgW"/>
-                            <constraint firstItem="Iex-iS-A3D" firstAttribute="centerX" secondItem="ACc-ab-yb7" secondAttribute="centerX" id="xPV-Dg-PUb"/>
+                            <constraint firstItem="Iex-iS-A3D" firstAttribute="centerX" secondItem="ACc-ab-yb7" secondAttribute="centerX" constant="-5" id="xPV-Dg-PUb"/>
                         </constraints>
                     </view>
                     <toolbarItems/>

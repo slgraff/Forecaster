@@ -16,9 +16,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.findCityButton.layer.cornerRadius = 2.0f;
     [[self.findCityButton layer] setBorderWidth:2.0f];
-    [[self.findCityButton layer] setBorderColor:[UIColor blueColor].CGColor];
+//    [[self.findCityButton layer] setBorderColor:[UIColor colorWithRed:<#(CGFloat)#> green:<#(CGFloat)#> blue:<#(CGFloat)#> alpha:1.0].CGColor];
     
 //    self.buttonTag.layer.borderWidth = 1.0f;
 //    self.buttonCancel.layer.borderWidth = 1.0f;
