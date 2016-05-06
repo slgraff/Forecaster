@@ -37,7 +37,9 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     self.coordArray = [[NSMutableArray alloc]init];
-
+    
+    // Hide the separators between cells
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
@@ -47,6 +49,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
     [super viewWillAppear:animated];
+    
+    // Hide empty cells that don't have data
+    self.tableView.tableFooterView = [[UIView alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
