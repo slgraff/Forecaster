@@ -7,18 +7,18 @@
 //
 
 #import "AddLocationViewController.h"
-#import <QuartzCore/QuartzCore.h>
-@interface AddLocationViewController ()
 
+@interface AddLocationViewController ()
+@property(weak,nonatomic)IBOutlet UIButton* findCityButton;
 @end
 
 @implementation AddLocationViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-//    [[myButton layer] setBorderWidth:2.0f];
-//    [[myButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+    self.findCityButton.layer.cornerRadius = 2.0f;
+    [[self.findCityButton layer] setBorderWidth:2.0f];
+//    [[self.findCityButton layer] setBorderColor:[UIColor colorWithRed:<#(CGFloat)#> green:<#(CGFloat)#> blue:<#(CGFloat)#> alpha:1.0].CGColor];
     
 //    self.buttonTag.layer.borderWidth = 1.0f;
 //    self.buttonCancel.layer.borderWidth = 1.0f;

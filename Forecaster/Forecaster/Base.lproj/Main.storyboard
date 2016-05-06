@@ -135,14 +135,14 @@
                                             <color key="textColor" red="0.63137254901960782" green="0.6470588235294118" blue="0.67843137254901964" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="70℉" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2rO-uh-CDQ">
-                                            <rect key="frame" x="489" y="10" width="70" height="39"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0℉" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2rO-uh-CDQ">
+                                            <rect key="frame" x="507" y="10" width="52" height="39"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mostly Cloudy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o87-uq-bLY">
-                                            <rect key="frame" x="8" y="40" width="141" height="27"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o87-uq-bLY">
+                                            <rect key="frame" x="8" y="40" width="94" height="27"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -208,7 +208,11 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ACc-ab-yb7">
-                                <rect key="frame" x="270" y="177" width="61" height="30"/>
+                                <rect key="frame" x="261" y="177" width="90" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="90" id="0nQ-M4-bJc"/>
+                                    <constraint firstAttribute="height" constant="50" id="pPM-ip-58y"/>
+                                </constraints>
                                 <state key="normal" title="Find City"/>
                                 <connections>
                                     <segue destination="sxk-gJ-0gx" kind="unwind" unwindAction="insertNewObject:" id="lmZ-1d-W7b"/>
@@ -220,7 +224,7 @@
                             <constraint firstItem="ACc-ab-yb7" firstAttribute="top" secondItem="Iex-iS-A3D" secondAttribute="bottom" constant="18" id="2Db-2w-nns"/>
                             <constraint firstItem="Iex-iS-A3D" firstAttribute="centerX" secondItem="RN9-9z-vVx" secondAttribute="centerX" id="VNu-xg-K4t"/>
                             <constraint firstItem="Iex-iS-A3D" firstAttribute="top" secondItem="lsF-qQ-ZHR" secondAttribute="bottom" constant="35" id="ksd-ht-dgW"/>
-                            <constraint firstItem="Iex-iS-A3D" firstAttribute="centerX" secondItem="ACc-ab-yb7" secondAttribute="centerX" id="xPV-Dg-PUb"/>
+                            <constraint firstItem="Iex-iS-A3D" firstAttribute="centerX" secondItem="ACc-ab-yb7" secondAttribute="centerX" constant="-5" id="xPV-Dg-PUb"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -234,6 +238,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="findCityButton" destination="ACc-ab-yb7" id="FpT-Lf-KHK"/>
                         <outlet property="zipCodeTextField" destination="Iex-iS-A3D" id="Boa-OJ-yyi"/>
                     </connections>
                 </viewController>
