@@ -14,7 +14,7 @@
 #import "Weather.h"
 
 @interface MasterViewController () <NSURLSessionDelegate>
-
+@property (strong,nonatomic)Location *locationObject;
 @property NSMutableData * recievedWeatherData;
 
 // Properties for JSON data received from Google Maps API request
@@ -120,7 +120,7 @@
     
     
     //code format with input from coordinates
-    NSString * urlString = [NSString stringWithFormat:@"https://api.forecast.io/forecast/5d288b25264d7b5e082c405582ddc873/%f, %f", latitude, longitude];
+    NSString * urlString = [NSString stringWithFormat:@"https://api.forecast.io/forecast/5d288b25264d7b5e082c405582ddc873/%f,%f", latitude, longitude];
     
     //OR hard code raleigh address FOR TESTING
     // NSString * urlString = [NSString stringWithFormat:@"https://api.forecast.io/forecast/5d288b25264d7b5e082c405582ddc873/35.7796, -78.6382"];
@@ -172,22 +172,22 @@
 
 - (void)updateLocation:(NSDictionary *)locationDataDictionary {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    Location *locationObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    NSEntityDescription *locationEntity = [[self.fetchedResultsController fetchRequest] entity];
+    self.locationObject = [NSEntityDescription insertNewObjectForEntityForName:[locationEntity name] inManagedObjectContext:context];
     
     NSArray *resultsArray = locationDataDictionary[@"results"];
-    locationObject.latitude = resultsArray[0][@"geometry"][@"location"][@"lat"];
-    locationObject.longitude = resultsArray[0][@"geometry"][@"location"][@"lng"];
+    self.locationObject.latitude = resultsArray[0][@"geometry"][@"location"][@"lat"];
+    self.locationObject.longitude = resultsArray[0][@"geometry"][@"location"][@"lng"];
     NSArray *addressComponentsArray = resultsArray[0][@"address_components"];
     for (NSDictionary *addressInfo in addressComponentsArray) {
         if ([addressInfo[@"types"][0] isEqualToString:@"postal_code"]) {
-            locationObject.zipCode = [NSNumber numberWithInteger:[addressInfo[@"short_name"] integerValue]];
+            self.locationObject.zipCode = [NSNumber numberWithInteger:[addressInfo[@"short_name"] integerValue]];
         }
         if ([addressInfo[@"types"][0] isEqualToString:@"locality"]) {
-            locationObject.city = addressInfo[@"long_name"];
+            self.locationObject.city = addressInfo[@"long_name"];
         }
         if ([addressInfo[@"types"][0] isEqualToString:@"administrative_area_level_1"]) {
-            locationObject.state = addressInfo[@"short_name"];
+            self.locationObject.state = addressInfo[@"short_name"];
         }
     }
     
@@ -199,17 +199,21 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+    [self getForecastlatitude:[self.locationObject.latitude floatValue] longitude:[self.locationObject.longitude floatValue]];
+    
 }
 
 - (void)updateWeather:(NSDictionary *)weatherDataDictionary {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    Weather *weatherObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+    NSEntityDescription *weatherEntity= [NSEntityDescription entityForName:@"Weather" inManagedObjectContext:context];
+    Weather *weatherObject = [NSEntityDescription insertNewObjectForEntityForName:[weatherEntity name] inManagedObjectContext:context];
+  
     
-    weatherObject.temperature = [NSNumber numberWithInteger:[weatherDataDictionary[@"weather"] integerValue]];
-    weatherObject.summary = weatherDataDictionary[@"summary"];
-    weatherObject.apparentTemperature = [NSNumber numberWithInteger:[weatherDataDictionary[@"apparentTemperature"] integerValue]];
-    
+
+    weatherObject.temperature = [NSNumber numberWithInteger:[weatherDataDictionary [@"currently"][@"temperature"] integerValue]];
+    weatherObject.summary = weatherDataDictionary[@"currently"][@"summary"];
+    weatherObject.apparentTemperature = [NSNumber numberWithInteger:[weatherDataDictionary[@"currently"][@"apparentTemperature"] integerValue]];
+    self.locationObject.forecast = weatherObject;
     // Save the context.
     NSError *error = nil;
     if (![context save:&error]) {
@@ -297,8 +301,11 @@
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
+    NSEntityDescription *locationEntity = [NSEntityDescription entityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:locationEntity];
+    
+    NSEntityDescription *weatherEntity = [NSEntityDescription entityForName:@"Weather" inManagedObjectContext:self.managedObjectContext];
+//    [fetchRequest setEntity:weatherEntity];
     
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
@@ -442,10 +449,13 @@
         
         // Puts the data received into mutable arrays and dictionaries
         NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.receivedData options:NSJSONReadingMutableContainers error:nil];
-        
-        // Update our location data model
+        if (jsonResponse[@"results"]) {
+            // Update our location data model
         [self updateLocation:jsonResponse];
-        
+            
+        }else if(jsonResponse[@"currently"]){
+            [self updateWeather:jsonResponse];
+        }
     }
     self.receivedData = nil;
 }
