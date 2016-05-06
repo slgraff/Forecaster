@@ -28,12 +28,20 @@
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
+        
+        self.weatherLabel.text = [[self.detailItem valueForKey:@"summary"]description];
+    self.temperatureLabel.text = [[self.detailItem valueForKey:@"temperature"]description];
+        self.feelsLikeTempLabel.text = [[self.detailItem valueForKey:@"apparentTemperature"]description];
+        
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.currentLabel.text =@"CURRENTLY";
+    
+    
     // Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }

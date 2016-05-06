@@ -86,6 +86,13 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Orlando" id="mOI-FS-AaM"/>
+                    <connections>
+                        <outlet property="currentLabel" destination="mng-yl-nvN" id="emz-96-gNN"/>
+                        <outlet property="feelsLikeTempLabel" destination="EWB-bC-q69" id="acm-p1-jz8"/>
+                        <outlet property="temperatureLabel" destination="uxj-Xb-ark" id="OqK-Rq-xDi"/>
+                        <outlet property="weatherImage" destination="InG-vk-psL" id="v3R-N9-uVH"/>
+                        <outlet property="weatherLabel" destination="bfx-dm-Yhm" id="oCE-7H-agB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>

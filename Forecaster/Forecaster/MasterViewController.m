@@ -192,7 +192,7 @@
 }
 
 - (void)configureCell:(UITableViewCell *)cell withObject:(NSManagedObject *)object {
-    cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
+    cell.textLabel.text = [[object valueForKey:@"city"] description];
 }
 
 #pragma mark - Fetched results controller
