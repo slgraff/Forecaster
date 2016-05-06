@@ -21,7 +21,7 @@
 @property NSMutableData *receivedData;
 @property NSMutableArray *coordArray;
 
-- (void)getCoordinates:(NSNumber *)zipCode;
+- (void)getCoordinates:(NSString *)zipCode;
 - (void)getForecastlatitude:(float)latitude longitude:(float)longitude;
 
 - (void)updateLocation:(NSDictionary *)locationDataDictionary;
@@ -65,7 +65,7 @@
     AddLocationViewController *newItemALVC = (AddLocationViewController *)unwindSegue.sourceViewController;
     
     // Call method for the Google API here
-    [self getCoordinates:@((NSInteger)newItemALVC.zipCodeTextField.text)];
+    [self getCoordinates:newItemALVC.zipCodeTextField.text];
     
     // Call method for the Forecast.io API here
     
@@ -107,14 +107,14 @@
 #pragma mark - getCoordinates
 
 // Send query to Google Maps API to get coordinates (latitude & longitude), city, state given input of zip code
-- (void)getCoordinates: (NSNumber *)zipCode {
+- (void)getCoordinates: (NSString *)zipCode {
     
 
     // Sample Google Maps API call without city name or sensor (not required)
     // https://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:27701
     
     // Create string which puts together api address plus zip code
-    NSString * urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:%ld",(long)[zipCode integerValue]];
+    NSString * urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/geocode/json?&components=postal_code:%@",zipCode];
     
     // Create NS URL from string
     NSURL * url = [NSURL URLWithString:urlString];
@@ -141,7 +141,7 @@
     NSArray *resultsArray = locationDataDictionary[@"results"];
     locationObject.latitude = resultsArray[0][@"geometry"][@"location"][@"lat"];
     locationObject.longitude = resultsArray[0][@"geometry"][@"location"][@"lng"];
-    NSArray *addressComponentsArray = locationDataDictionary[@"address_components"];
+    NSArray *addressComponentsArray = resultsArray[0][@"address_components"];
     for (NSDictionary *addressInfo in addressComponentsArray) {
         if ([addressInfo[@"types"][0] isEqualToString:@"postal_code"]) {
             locationObject.zipCode = [NSNumber numberWithInteger:[addressInfo[@"short_name"] integerValue]];
@@ -245,6 +245,10 @@
     cell.city.text = object.city;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.0;
+}
+
 #pragma mark - Fetched results controller
 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -262,7 +266,7 @@
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"city" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"city" ascending:YES];
 
     [fetchRequest setSortDescriptors:@[sortDescriptor]];
     
@@ -405,9 +409,9 @@
         [self updateLocation:jsonResponse];
         
         // Add location to table view
-        id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][0];
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[sectionInfo numberOfObjects] inSection:0];
-        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadData];
+//        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     }
     self.receivedData = nil;
