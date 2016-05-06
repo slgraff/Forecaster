@@ -234,6 +234,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="findCityButton" destination="ACc-ab-yb7" id="FpT-Lf-KHK"/>
                         <outlet property="zipCodeTextField" destination="Iex-iS-A3D" id="Boa-OJ-yyi"/>
                     </connections>
                 </viewController>
