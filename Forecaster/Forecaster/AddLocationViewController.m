@@ -7,7 +7,7 @@
 //
 
 #import "AddLocationViewController.h"
-
+#import <QuartzCore/QuartzCore.h>
 @interface AddLocationViewController ()
 
 @end
@@ -16,6 +16,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+//    [[myButton layer] setBorderWidth:2.0f];
+//    [[myButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+//    self.buttonTag.layer.borderWidth = 1.0f;
+//    self.buttonCancel.layer.borderWidth = 1.0f;
+//    
+//    self.buttonTag.layer.borderColor = [UIColor blueColor].CGColor;
+//    self.buttonCancel.layer.borderColor = [UIColor blueColor].CGColor;
+//    
+//    self.buttonTag.layer.cornerRadius = 4.0f;
+//    self.buttonCancel.layer.cornerRadius = 4.0f;
     // Do any additional setup after loading the view.
 }
 

@@ -43,6 +43,7 @@
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
 
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
@@ -60,19 +61,55 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)isZipCode:(NSString *)zipCodeString{
+    BOOL rc = NO;
+    
+    NSCharacterSet * set =[NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
+    
+    rc = ([zipCodeString length] ==5)&&([zipCodeString rangeOfCharacterFromSet:set].location != NSNotFound);
+    
+    return rc;
+    
+}
+
+
 - (IBAction)insertNewObject:(UIStoryboardSegue *)unwindSegue {
     
     AddLocationViewController *newItemALVC = (AddLocationViewController *)unwindSegue.sourceViewController;
-    
-    // Call method for the Google API here
-    [self getCoordinates:newItemALVC.zipCodeTextField.text];
-    
-    // Call method for the Forecast.io API here
-    
-    // Populate our data to our models here
-    // Location info
-    
-    // Weather info
+
+    if ([self isZipCode:newItemALVC.zipCodeTextField.text]) {
+        // Call method for the Google API here
+        [self getCoordinates:newItemALVC.zipCodeTextField.text];
+        
+        // Call method for the Forecast.io API here
+        
+        // Populate our data to our models here
+        // Location info
+        
+        // Weather info
+  
+    }else{
+        UIAlertController * alertController =
+        [UIAlertController alertControllerWithTitle:@"ERROR"
+         
+                                            message: @"ZipCode is invalid!"
+                                     preferredStyle:UIAlertControllerStyleAlert];
+        
+
+        
+        
+        UIAlertAction *okAlert =
+        [UIAlertAction actionWithTitle : @"ok" style:UIAlertActionStyleDefault handler:nil];
+        
+        
+        
+        [alertController addAction: okAlert];
+                
+        [self presentViewController:alertController animated:YES completion:nil];
+
+        
+    }
+
 }
 
 #pragma mark - retrieve weather information with API
@@ -248,6 +285,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60.0;
 }
+
 
 #pragma mark - Fetched results controller
 
