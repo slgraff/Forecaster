@@ -38,12 +38,12 @@
         
         self.title = self.detailItem.city;
         self.weatherLabel.text = weatherObject.summary;
-    self.temperatureLabel.text = temperatureString;
+        self.temperatureLabel.text = temperatureString;
         self.feelsLikeTempLabel.text = feelsLikeTemp;
-//        if(![self.detailItem.image isEqualToString:@""]){
-//            self.weatherImage.image = self.detailItem.image;
-//            
-//        }
+        if (![weatherObject.image isEqualToString:@""]){
+            self.weatherImage.image = [UIImage imageNamed:weatherObject.image];
+            
+        }
     }
 }
 
