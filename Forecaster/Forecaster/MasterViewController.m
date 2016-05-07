@@ -13,7 +13,7 @@
 #import "Location.h"
 #import "Weather.h"
 
-@interface MasterViewController () <NSURLSessionDelegate>
+@interface MasterViewController () <NSURLSessionDelegate, AddLocationDelegate>
 @property (strong,nonatomic)Location *locationObject;
 @property NSMutableData * recievedWeatherData;
 
@@ -75,10 +75,10 @@
 
 - (void)insertNewObject:(NSString *)zipCodeString {
     
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
     // Call method for the Google API here
     [self getCoordinates:zipCodeString];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
 
 }
 
@@ -101,7 +101,7 @@
     //configure what part of processor is being used - main Queue is where all UI elements need to happen
     NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
     
-//pragma mark delegate needs to be set
+    //pragma mark delegate needs to be set
     NSURLSession * session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     
     //create data task - which downloads from url
@@ -183,6 +183,7 @@
     weatherObject.temperature = [NSNumber numberWithInteger:[weatherDataDictionary [@"currently"][@"temperature"] integerValue]];
     weatherObject.summary = weatherDataDictionary[@"currently"][@"summary"];
     weatherObject.apparentTemperature = [NSNumber numberWithInteger:[weatherDataDictionary[@"currently"][@"apparentTemperature"] integerValue]];
+    weatherObject.image = weatherDataDictionary[@"currently"][@"icon"];
     self.locationObject.forecast = weatherObject;
     // Save the context.
     NSError *error = nil;
@@ -205,6 +206,9 @@
         [controller setDetailItem:object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
+    } else if ([segue.identifier isEqualToString:@"FindCity"]) {
+        AddLocationViewController *addLocationVC = (AddLocationViewController *)[segue.destinationViewController topViewController];
+        addLocationVC.delegate = self;
     }
 }
 
