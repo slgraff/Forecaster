@@ -183,6 +183,7 @@
     weatherObject.temperature = [NSNumber numberWithInteger:[weatherDataDictionary [@"currently"][@"temperature"] integerValue]];
     weatherObject.summary = weatherDataDictionary[@"currently"][@"summary"];
     weatherObject.apparentTemperature = [NSNumber numberWithInteger:[weatherDataDictionary[@"currently"][@"apparentTemperature"] integerValue]];
+    weatherObject.image = weatherDataDictionary[@"currently"][@"icon"];
     self.locationObject.forecast = weatherObject;
     // Save the context.
     NSError *error = nil;
