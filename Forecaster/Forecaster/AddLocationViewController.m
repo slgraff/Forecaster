@@ -7,11 +7,8 @@
 //
 
 #import "AddLocationViewController.h"
-#import "MasterViewController.h"
 
 @interface AddLocationViewController ()
-
-@property (strong, nonatomic) MasterViewController *masterVC;
 
 @property(weak,nonatomic)IBOutlet UIButton* findCityButton;
 
@@ -45,7 +42,7 @@
     if (![self isZipCode:self.zipCodeTextField.text]) {
         [self displayErrorForTitle:@"Error" andMessage:@"Invalid zip code entered."];
     } else {
-        [self.masterVC insertNewObject:self.zipCodeTextField.text];
+        [self.delegate insertNewObject:self.zipCodeTextField.text];
     }
     
 }

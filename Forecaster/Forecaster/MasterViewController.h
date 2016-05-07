@@ -18,7 +18,5 @@
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-- (void)insertNewObject:(NSString *)zipCodeString;
-
 @end
 

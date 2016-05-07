@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+
+@protocol AddLocationDelegate <NSObject>
+
+- (void)insertNewObject:(NSString *)zipCodeString;
+
+@end
+
 @interface AddLocationViewController : UIViewController
 
+@property (weak, nonatomic) id<AddLocationDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITextField *zipCodeTextField;
 
 @end
