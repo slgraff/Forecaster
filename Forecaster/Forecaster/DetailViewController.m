@@ -49,7 +49,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+
     self.currentLabel.text =@"CURRENTLY";
     
     
