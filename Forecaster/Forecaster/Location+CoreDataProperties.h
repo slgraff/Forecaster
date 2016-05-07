@@ -2,7 +2,7 @@
 //  Location+CoreDataProperties.h
 //  Forecaster
 //
-//  Created by Donny Davis on 5/5/16.
+//  Created by Donny Davis on 5/7/16.
 //  Copyright © 2016 Donny Davis. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -16,11 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Location (CoreDataProperties)
 
 @property (nullable, nonatomic, retain) NSString *city;
-@property (nullable, nonatomic, retain) NSString *state;
-@property (nullable, nonatomic, retain) NSNumber *zipCode;
 @property (nullable, nonatomic, retain) NSNumber *latitude;
 @property (nullable, nonatomic, retain) NSNumber *longitude;
-@property (nullable, nonatomic, retain) NSManagedObject *forecast;
+@property (nullable, nonatomic, retain) NSString *state;
+@property (nullable, nonatomic, retain) NSNumber *zipCode;
+@property (nullable, nonatomic, retain) NSString *image;
+@property (nullable, nonatomic, retain) NSString *summary;
+@property (nullable, nonatomic, retain) NSNumber *apparentTemperature;
+@property (nullable, nonatomic, retain) NSNumber *temperature;
 
 @end
 

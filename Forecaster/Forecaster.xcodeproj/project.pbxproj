@@ -16,11 +16,9 @@
 		41A2CA931CDBB3450096D11A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41A2CA911CDBB3450096D11A /* Main.storyboard */; };
 		41A2CA951CDBB3450096D11A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41A2CA941CDBB3450096D11A /* Assets.xcassets */; };
 		41A2CA981CDBB3450096D11A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41A2CA961CDBB3450096D11A /* LaunchScreen.storyboard */; };
-		41A2CAA71CDBC2D80096D11A /* Location+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A2CAA01CDBC2D80096D11A /* Location+CoreDataProperties.m */; };
-		41A2CAA81CDBC2D80096D11A /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A2CAA21CDBC2D80096D11A /* Location.m */; };
-		41A2CAA91CDBC2D80096D11A /* Weather+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A2CAA41CDBC2D80096D11A /* Weather+CoreDataProperties.m */; };
-		41A2CAAA1CDBC2D80096D11A /* Weather.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A2CAA61CDBC2D80096D11A /* Weather.m */; };
 		41A2CAB01CDBCF4D0096D11A /* AddLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A2CAAF1CDBCF4D0096D11A /* AddLocationViewController.m */; };
+		41C360121CDE8DE1002FCC7F /* Location+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C3600F1CDE8DE1002FCC7F /* Location+CoreDataProperties.m */; };
+		41C360131CDE8DE1002FCC7F /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C360111CDE8DE1002FCC7F /* Location.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,16 +37,12 @@
 		41A2CA941CDBB3450096D11A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		41A2CA971CDBB3450096D11A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		41A2CA991CDBB3450096D11A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		41A2CA9F1CDBC2D80096D11A /* Location+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Location+CoreDataProperties.h"; sourceTree = "<group>"; };
-		41A2CAA01CDBC2D80096D11A /* Location+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Location+CoreDataProperties.m"; sourceTree = "<group>"; };
-		41A2CAA11CDBC2D80096D11A /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		41A2CAA21CDBC2D80096D11A /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		41A2CAA31CDBC2D80096D11A /* Weather+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Weather+CoreDataProperties.h"; sourceTree = "<group>"; };
-		41A2CAA41CDBC2D80096D11A /* Weather+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Weather+CoreDataProperties.m"; sourceTree = "<group>"; };
-		41A2CAA51CDBC2D80096D11A /* Weather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Weather.h; sourceTree = "<group>"; };
-		41A2CAA61CDBC2D80096D11A /* Weather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Weather.m; sourceTree = "<group>"; };
 		41A2CAAE1CDBCF4D0096D11A /* AddLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddLocationViewController.h; sourceTree = "<group>"; };
 		41A2CAAF1CDBCF4D0096D11A /* AddLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddLocationViewController.m; sourceTree = "<group>"; };
+		41C3600E1CDE8DE1002FCC7F /* Location+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Location+CoreDataProperties.h"; sourceTree = "<group>"; };
+		41C3600F1CDE8DE1002FCC7F /* Location+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Location+CoreDataProperties.m"; sourceTree = "<group>"; };
+		41C360101CDE8DE1002FCC7F /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		41C360111CDE8DE1002FCC7F /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,14 +99,10 @@
 			isa = PBXGroup;
 			children = (
 				41A2CA881CDBB3450096D11A /* Forecaster.xcdatamodeld */,
-				41A2CA9F1CDBC2D80096D11A /* Location+CoreDataProperties.h */,
-				41A2CAA01CDBC2D80096D11A /* Location+CoreDataProperties.m */,
-				41A2CAA11CDBC2D80096D11A /* Location.h */,
-				41A2CAA21CDBC2D80096D11A /* Location.m */,
-				41A2CAA31CDBC2D80096D11A /* Weather+CoreDataProperties.h */,
-				41A2CAA41CDBC2D80096D11A /* Weather+CoreDataProperties.m */,
-				41A2CAA51CDBC2D80096D11A /* Weather.h */,
-				41A2CAA61CDBC2D80096D11A /* Weather.m */,
+				41C3600E1CDE8DE1002FCC7F /* Location+CoreDataProperties.h */,
+				41C3600F1CDE8DE1002FCC7F /* Location+CoreDataProperties.m */,
+				41C360101CDE8DE1002FCC7F /* Location.h */,
+				41C360111CDE8DE1002FCC7F /* Location.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -212,14 +202,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41A2CAAA1CDBC2D80096D11A /* Weather.m in Sources */,
-				41A2CAA71CDBC2D80096D11A /* Location+CoreDataProperties.m in Sources */,
-				41A2CAA81CDBC2D80096D11A /* Location.m in Sources */,
 				414791701CDCD95C00F67860 /* CityTableViewCell.m in Sources */,
-				41A2CAA91CDBC2D80096D11A /* Weather+CoreDataProperties.m in Sources */,
 				41A2CA901CDBB3450096D11A /* DetailViewController.m in Sources */,
 				41A2CAB01CDBCF4D0096D11A /* AddLocationViewController.m in Sources */,
 				41A2CA8D1CDBB3450096D11A /* MasterViewController.m in Sources */,
+				41C360131CDE8DE1002FCC7F /* Location.m in Sources */,
+				41C360121CDE8DE1002FCC7F /* Location+CoreDataProperties.m in Sources */,
 				41A2CA871CDBB3450096D11A /* AppDelegate.m in Sources */,
 				41A2CA841CDBB3450096D11A /* main.m in Sources */,
 				41A2CA8A1CDBB3450096D11A /* Forecaster.xcdatamodeld in Sources */,
