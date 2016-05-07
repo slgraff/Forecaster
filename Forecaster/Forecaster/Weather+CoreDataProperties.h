@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *temperature;
 @property (nullable, nonatomic, retain) NSNumber *apparentTemperature;
 @property (nullable, nonatomic, retain) NSString *summary;
+@property (nullable, nonatomic, retain) NSString *image;
 @property (nullable, nonatomic, retain) NSSet<Location *> *location;
 
 @end

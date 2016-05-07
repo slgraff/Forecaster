@@ -16,6 +16,7 @@
 @dynamic temperature;
 @dynamic apparentTemperature;
 @dynamic summary;
+@dynamic image;
 @dynamic location;
 
 @end

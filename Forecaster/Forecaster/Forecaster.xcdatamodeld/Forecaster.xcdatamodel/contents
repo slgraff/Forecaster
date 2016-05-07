@@ -13,12 +13,13 @@
     </entity>
     <entity name="Weather" representedClassName="Weather" syncable="YES">
         <attribute name="apparentTemperature" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="temperature" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="forecast" inverseEntity="Location" syncable="YES"/>
     </entity>
     <elements>
         <element name="Location" positionX="261" positionY="189" width="128" height="135"/>
-        <element name="Weather" positionX="270" positionY="234" width="128" height="105"/>
+        <element name="Weather" positionX="270" positionY="234" width="128" height="120"/>
     </elements>
 </model>
