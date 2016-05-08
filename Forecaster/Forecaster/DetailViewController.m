@@ -47,7 +47,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+
     self.currentLabel.text =@"CURRENTLY";
     
     // Do any additional setup after loading the view, typically from a nib.
