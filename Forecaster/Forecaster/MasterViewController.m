@@ -39,6 +39,7 @@
     
     // Hide the separators between cells
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    self.tableView.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(216/255.0) blue:(224/255.0) alpha:1.0];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
@@ -206,7 +207,6 @@
     CityTableViewCell *cell = (CityTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"CityCell" forIndexPath:indexPath];
     Location *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     
-    cell.city.text = object.city;
     [self configureCell:cell withObject:object];
     
     return cell;
@@ -242,6 +242,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 10.0;
 }
 
 
