@@ -9,7 +9,7 @@
 #import "DetailViewController.h"
 #import "MasterViewController.h"
 #import "Location.h"
-#import "Weather.h"
+
 @interface DetailViewController ()
 
 @end
@@ -31,17 +31,15 @@
     // Update the user interface for the detail item.
     if (self.detailItem) {
         
-        
-        Weather *weatherObject = (Weather*)self.detailItem.forecast;
-        NSString *temperatureString = [NSString stringWithFormat:@"%ld℉", [weatherObject.temperature integerValue]];
-        NSString *feelsLikeTemp = [NSString stringWithFormat:@"Feels Like %ld℉", [weatherObject.apparentTemperature integerValue]];
+        NSString *temperatureString = [NSString stringWithFormat:@"%ld℉", [self.detailItem.temperature integerValue]];
+        NSString *feelsLikeTemp = [NSString stringWithFormat:@"Feels Like %ld℉", [self.detailItem.apparentTemperature integerValue]];
         
         self.title = self.detailItem.city;
-        self.weatherLabel.text = weatherObject.summary;
+        self.weatherLabel.text = self.detailItem.summary;
         self.temperatureLabel.text = temperatureString;
         self.feelsLikeTempLabel.text = feelsLikeTemp;
-        if (![weatherObject.image isEqualToString:@""]){
-            self.weatherImage.image = [UIImage imageNamed:weatherObject.image];
+        if (![self.detailItem.image isEqualToString:@""]){
+            self.weatherImage.image = [UIImage imageNamed:self.detailItem.image];
             
         }
     }
@@ -52,7 +50,6 @@
 
 
     self.currentLabel.text =@"CURRENTLY";
-    
     
     // Do any additional setup after loading the view, typically from a nib.
     [self configureView];

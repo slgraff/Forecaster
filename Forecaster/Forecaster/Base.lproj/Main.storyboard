@@ -45,7 +45,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfx-dm-Yhm">
-                                <rect key="frame" x="35" y="201" width="42" height="20"/>
+                                <rect key="frame" x="35" y="210" width="42" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" red="0.83137254900000002" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -75,7 +75,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="uxj-Xb-ark" secondAttribute="trailing" constant="40" id="7Zd-C2-545"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EWB-bC-q69" secondAttribute="trailing" constant="40" id="CIl-eN-5sD"/>
                             <constraint firstItem="EWB-bC-q69" firstAttribute="top" secondItem="uxj-Xb-ark" secondAttribute="bottom" constant="21" id="EOB-mo-EPi"/>
-                            <constraint firstItem="bfx-dm-Yhm" firstAttribute="top" secondItem="InG-vk-psL" secondAttribute="bottom" constant="8" id="HTv-Ln-5PX"/>
+                            <constraint firstItem="bfx-dm-Yhm" firstAttribute="top" secondItem="InG-vk-psL" secondAttribute="bottom" constant="17" id="HTv-Ln-5PX"/>
                             <constraint firstItem="uxj-Xb-ark" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="45" id="Jsj-WZ-bb4"/>
                             <constraint firstItem="mng-yl-nvN" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="8" id="Lu9-b8-ceb"/>
                             <constraint firstItem="InG-vk-psL" firstAttribute="top" secondItem="mng-yl-nvN" secondAttribute="bottom" constant="17" id="S14-PI-Fod"/>
@@ -126,7 +126,7 @@
                                 <rect key="frame" x="0.0" y="86" width="600" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WCw-Qf-5nD" id="37f-cq-3Eg">
-                                    <rect key="frame" x="0.0" y="0.0" width="567" height="75"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="75.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Orlando" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YLU-sZ-chf">

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Location.h"
-#import "Weather.h"
+
 @interface DetailViewController : UIViewController
 
 @property (strong, nonatomic) Location* detailItem;

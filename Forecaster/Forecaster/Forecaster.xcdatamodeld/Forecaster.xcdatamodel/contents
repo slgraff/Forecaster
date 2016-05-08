@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Automatic">
     <entity name="Location" representedClassName="Location">
+        <attribute name="apparentTemperature" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="city" optional="YES" attributeType="String">
             <userInfo/>
         </attribute>
+        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="zipCode" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="forecast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Weather" inverseName="location" inverseEntity="Weather" syncable="YES"/>
-        <userInfo/>
-    </entity>
-    <entity name="Weather" representedClassName="Weather" syncable="YES">
-        <attribute name="apparentTemperature" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="temperature" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="forecast" inverseEntity="Location" syncable="YES"/>
+        <attribute name="zipCode" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <userInfo/>
     </entity>
     <elements>
-        <element name="Location" positionX="261" positionY="189" width="128" height="135"/>
-        <element name="Weather" positionX="270" positionY="234" width="128" height="120"/>
+        <element name="Location" positionX="261" positionY="189" width="128" height="180"/>
     </elements>
 </model>
