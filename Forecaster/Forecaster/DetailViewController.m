@@ -47,7 +47,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.weatherImage.layer.shadowColor = [UIColor grayColor].CGColor;
+    self.weatherImage.layer.shadowOffset = CGSizeMake(5, 7);
+    self.weatherImage.layer.shadowOpacity = 1;
+    self.weatherImage.layer.shadowRadius = 1.0;
 
     self.currentLabel.text =@"CURRENTLY";
     
