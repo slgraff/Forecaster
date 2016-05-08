@@ -11,11 +11,10 @@
 #import "DetailViewController.h"
 #import "AddLocationViewController.h"
 #import "Location.h"
-#import "Weather.h"
 
 @interface MasterViewController () <NSURLSessionDelegate, AddLocationDelegate>
-@property (strong,nonatomic)Location *locationObject;
-@property NSMutableData * recievedWeatherData;
+
+@property NSDictionary *recievedLocationData;
 
 // Properties for JSON data received from Google Maps API request
 @property NSMutableData *receivedData;
@@ -24,8 +23,7 @@
 - (void)getCoordinates:(NSString *)zipCode;
 - (void)getForecastlatitude:(float)latitude longitude:(float)longitude;
 
-- (void)updateLocation:(NSDictionary *)locationDataDictionary;
-- (void)updateWeather:(NSDictionary *)weatherDataDictionary;
+- (void)updateLocation:(NSDictionary *)locationDataDictionary weather:(NSDictionary *)weatherDataDictionary;
 
 @end
 
@@ -41,6 +39,7 @@
     
     // Hide the separators between cells
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    self.tableView.backgroundColor = [UIColor colorWithRed:(199/255.0) green:(216/255.0) blue:(224/255.0) alpha:1.0];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
@@ -140,26 +139,30 @@
 
 #pragma mark - Update Location and Weather
 
-- (void)updateLocation:(NSDictionary *)locationDataDictionary {
+- (void)updateLocation:(NSDictionary *)locationDataDictionary weather:(NSDictionary *)weatherDataDictionary {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *locationEntity = [[self.fetchedResultsController fetchRequest] entity];
-    self.locationObject = [NSEntityDescription insertNewObjectForEntityForName:[locationEntity name] inManagedObjectContext:context];
+    Location *locationObject = [NSEntityDescription insertNewObjectForEntityForName:[locationEntity name] inManagedObjectContext:context];
     
     NSArray *resultsArray = locationDataDictionary[@"results"];
-    self.locationObject.latitude = resultsArray[0][@"geometry"][@"location"][@"lat"];
-    self.locationObject.longitude = resultsArray[0][@"geometry"][@"location"][@"lng"];
+    locationObject.latitude = resultsArray[0][@"geometry"][@"location"][@"lat"];
+    locationObject.longitude = resultsArray[0][@"geometry"][@"location"][@"lng"];
     NSArray *addressComponentsArray = resultsArray[0][@"address_components"];
     for (NSDictionary *addressInfo in addressComponentsArray) {
         if ([addressInfo[@"types"][0] isEqualToString:@"postal_code"]) {
-            self.locationObject.zipCode = [NSNumber numberWithInteger:[addressInfo[@"short_name"] integerValue]];
+            locationObject.zipCode = [NSNumber numberWithInteger:[addressInfo[@"short_name"] integerValue]];
         }
         if ([addressInfo[@"types"][0] isEqualToString:@"locality"]) {
-            self.locationObject.city = addressInfo[@"long_name"];
+            locationObject.city = addressInfo[@"long_name"];
         }
         if ([addressInfo[@"types"][0] isEqualToString:@"administrative_area_level_1"]) {
-            self.locationObject.state = addressInfo[@"short_name"];
+            locationObject.state = addressInfo[@"short_name"];
         }
     }
+    locationObject.temperature = [NSNumber numberWithInteger:[weatherDataDictionary [@"currently"][@"temperature"] integerValue]];
+    locationObject.summary = weatherDataDictionary[@"currently"][@"summary"];
+    locationObject.apparentTemperature = [NSNumber numberWithInteger:[weatherDataDictionary[@"currently"][@"apparentTemperature"] integerValue]];
+    locationObject.image = weatherDataDictionary[@"currently"][@"icon"];
     
     // Save the context.
     NSError *error = nil;
@@ -169,30 +172,7 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
-    [self getForecastlatitude:[self.locationObject.latitude floatValue] longitude:[self.locationObject.longitude floatValue]];
     
-}
-
-- (void)updateWeather:(NSDictionary *)weatherDataDictionary {
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *weatherEntity= [NSEntityDescription entityForName:@"Weather" inManagedObjectContext:context];
-    Weather *weatherObject = [NSEntityDescription insertNewObjectForEntityForName:[weatherEntity name] inManagedObjectContext:context];
-  
-    
-
-    weatherObject.temperature = [NSNumber numberWithInteger:[weatherDataDictionary [@"currently"][@"temperature"] integerValue]];
-    weatherObject.summary = weatherDataDictionary[@"currently"][@"summary"];
-    weatherObject.apparentTemperature = [NSNumber numberWithInteger:[weatherDataDictionary[@"currently"][@"apparentTemperature"] integerValue]];
-    weatherObject.image = weatherDataDictionary[@"currently"][@"icon"];
-    self.locationObject.forecast = weatherObject;
-    // Save the context.
-    NSError *error = nil;
-    if (![context save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
 }
 
 
@@ -227,7 +207,6 @@
     CityTableViewCell *cell = (CityTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"CityCell" forIndexPath:indexPath];
     Location *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     
-    cell.city.text = object.city;
     [self configureCell:cell withObject:object];
     
     return cell;
@@ -254,16 +233,19 @@
 }
 
 - (void)configureCell:(CityTableViewCell *)cell withObject:(Location *)object {
-    Weather *weatherObject = (Weather*)object.forecast;
-    NSString *temperatureString = [NSString stringWithFormat:@"%ld℉", [weatherObject.temperature integerValue]];
+    NSString *temperatureString = [NSString stringWithFormat:@"%ld℉", [object.temperature integerValue]];
     cell.temperature.text = temperatureString;
-    cell.summary.text = weatherObject.summary;
+    cell.summary.text = object.summary;
     cell.city.text = object.city;
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 10.0;
 }
 
 
@@ -279,9 +261,6 @@
     // Edit the entity name as appropriate.
     NSEntityDescription *locationEntity = [NSEntityDescription entityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:locationEntity];
-    
-    NSEntityDescription *weatherEntity = [NSEntityDescription entityForName:@"Weather" inManagedObjectContext:self.managedObjectContext];
-//    [fetchRequest setEntity:weatherEntity];
     
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
@@ -360,48 +339,8 @@
     [self.tableView endUpdates];
 }
 
-/*
-// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
- 
- - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    // In the simplest, most efficient, case, reload the table view.
-    [self.tableView reloadData];
-}
- */
 
 #pragma mark - NSURLSessionDelegate
-
-//bring in data task information
-//- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
-//    didReceiveData:(NSData *)data{
-//    //use variable created above. create loop to incrementaly add to our mutable data variable
-//    if (!self.recievedWeatherData) {
-//        self.recievedWeatherData = [[NSMutableData alloc]initWithData:data];
-//    }else{
-//        [self.recievedWeatherData appendData:data];
-//    }
-//}
-
-
-
-////figure out if the download happened with or without an error
-//- (NSDictionary*)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
-//didCompleteWithError:(nullable NSError *)error{
-//    
-//    if (!error) {
-//        NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.recievedWeatherData options:NSJSONReadingMutableContainers error:nil];
-//               return jsonResponse;
-//    }
-//    return nil;
-//}
-//
-//
-////magic code
-//- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
-//{
-//    completionHandler(NSURLSessionResponseAllow);
-//}
 
 // Used when we receive data
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
@@ -426,11 +365,11 @@
         // Puts the data received into mutable arrays and dictionaries
         NSDictionary * jsonResponse = [NSJSONSerialization JSONObjectWithData:self.receivedData options:NSJSONReadingMutableContainers error:nil];
         if (jsonResponse[@"results"]) {
-            // Update our location data model
-        [self updateLocation:jsonResponse];
+            self.recievedLocationData = [NSDictionary dictionaryWithDictionary:jsonResponse];
+            [self getForecastlatitude:[jsonResponse[@"results"][0][@"geometry"][@"location"][@"lat"] floatValue] longitude:[jsonResponse[@"results"][0][@"geometry"][@"location"][@"lng"] floatValue]];
             
         }else if(jsonResponse[@"currently"]){
-            [self updateWeather:jsonResponse];
+            [self updateLocation:self.recievedLocationData weather:jsonResponse];
         }
     }
     self.receivedData = nil;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Location.h"
-#import "Weather.h"
+
 @interface DetailViewController : UIViewController
 
 @property (strong, nonatomic) Location* detailItem;
@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *weatherImage;
 @property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
 @property (weak, nonatomic) IBOutlet UILabel *feelsLikeTempLabel;
+
 
 @end
 
