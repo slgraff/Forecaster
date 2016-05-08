@@ -19,5 +19,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
 @property (weak, nonatomic) IBOutlet UILabel *feelsLikeTempLabel;
 
+
 @end
 
